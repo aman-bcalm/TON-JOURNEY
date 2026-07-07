@@ -128,3 +128,13 @@ if __name__ == "__main__":
     get_transactions(MY_WALLET, 5)
     for t in get_transactions(MY_WALLET, 5):
          print("tx:", t)
+    
+
+    #extracting the blob
+    data = api_get("transactions", {"account": MY_WALLET, "limit": 5})
+    for tx in data["transactions"]:
+        mc = tx["in_msg"]["message_content"]
+        print(mc.get("decoded"), "\n", mc["body"], "\n")
+
+    #te6cckEBAQEALwAAWgAAAABHZXQgMzAwIHRlc3RuZXQgVE9OIHwgVEc6IEB0ZXN0bmV0X21hcmtldKC5Zfw=
+    # BODY OF THE SPAM TRANSACTION 
