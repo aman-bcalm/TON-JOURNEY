@@ -1,4 +1,6 @@
 import base64
+from pytoniq_core import Cell, begin_cell, Address
+
 
 SPAM_BODY = "te6cckEBAQEALwAAWgAAAABHZXQgMzAwIHRlc3RuZXQgVE9OIHwgVEc6IEB0ZXN0bmV0X21hcmtldKC5Zfw="
 
@@ -132,7 +134,6 @@ print(crc1.hex())
 
 
 
-from pytoniq_core import Cell, begin_cell, Address
 cell = Cell.one_from_boc(SPAM_BODY)
 
 
@@ -197,3 +198,13 @@ print(p.load_uint(64))         # 42
 print(p.load_coins())          # 1500000000  (nanotons — NANO habit applies)
 print(p.load_address())        # your address (raw form)
 print(p.remaining_bits)        # 0 — fully consumed, nothing dangling
+
+
+
+#Print the tree when a cell has multiple child cells 
+def print_tree(cell, depth=0):
+    print("  " * depth + f"cell: {len(cell.bits)} bits, {len(cell.refs)} refs")
+    for ref in cell.refs:
+        print_tree(ref, depth + 1)
+
+print_tree(Cell.one_from_boc(SPAM_BODY))
